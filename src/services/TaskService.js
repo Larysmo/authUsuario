@@ -1,5 +1,8 @@
 import { urlApi } from './FirebaseConfig'
 
+
+
+// GET: solicitar, listar
 export async function listaTarefas(){
     let tarefas =[]                       /*  novo */
     await  fetch(urlApi + "tarefas.json")               
@@ -13,6 +16,18 @@ export async function listaTarefas(){
     return tarefas
 }
 
+// PUT alterar modificar
+export async function modificaTarefa(tarefa){
+    await fetch(urlApi + "tarefas/" + tarefa.key + ".json",{
+         method: "PUT",
+         body: JSON.stringify({nome: tarefa.nome, prioridade: tarefa.prioridade}),
+         headers:{'Content-type': 'application/json'}
+     })
+     .catch((error) => {throw Error("Deu ruim")})
+ }
+
+
+//POST: criar, inserir
 export async function insereTarefa(tarefa){
    await fetch(urlApi + "tarefas.json",{
         method: "POST",
@@ -25,6 +40,8 @@ export async function insereTarefa(tarefa){
 }
 
 
+
+// DELETE: remover, excluir
 export async function removeTarefa(key){
     await fetch(urlApi+ "tarefas/" + key + ".json", {
         method:'DELETE'
