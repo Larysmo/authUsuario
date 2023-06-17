@@ -1,9 +1,12 @@
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { insereTarefa } from "../services/TaskService"
+import TaskContext from "../contexts/TaskContext"
+import { useContext } from "react"
 
 
 export default function NovoForm() {
+  const { insereTarefa} = useContext(TaskContext)
   const { register, handleSubmit } = useForm()
   const navigate = useNavigate()
   

@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { listaTarefas, removeTarefa } from "../services/TaskService"
-
+import TaskContext from "../contexts/TaskContext"
+import { useContext } from "react"
 
 export default function HomeList() {
-  const [tarefas, setTarefas] = useState([])      /*  novo */
+  const { tarefas, removeTarefa, listaTarefas } = useContext(TaskContext)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   
-
+  useEffect(() => {
     async function carrega() {
       setLoading(true)
-      const data = await listaTarefas()    /*  novo */
-      setTarefas(data)
+      listaTarefas() 
       setLoading(false)
-      
     }
-    useEffect(() => {
     carrega()
   },[])
 
   async function handleRemover(key){
     await removeTarefa(key)
-    carrega()
   }
 
 
@@ -32,7 +28,7 @@ export default function HomeList() {
   
   return (
     <>
-    {loading? <h3>Aguarde...</h3>:        /*  novo */
+    {loading? <h3>Aguarde...</h3>: 
     <ol>
       {tarefas.map((tarefa, key) =>
         <li key={key}>{tarefa.nome} - {tarefa.prioridade}
